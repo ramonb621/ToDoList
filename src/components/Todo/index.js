@@ -10,8 +10,19 @@ class Todo extends Component {
       todos:[],
     }
 
-    addTodo=()=>{    
-    const Items={
+    componentDidMount() {
+        const todos = window.localStorage.getItem("todos");
+        const parsedList = JSON.parse(todos);
+        if(todos == null) {
+            return false
+        } else {
+            this.setState({ todos: parsedList })
+            console.log(this.state.todos);
+        }
+    }
+
+    addTodo = () => {
+        const Items = {
             id: shortid.generate(),
             value: this.input.current.value,
         };
@@ -27,26 +38,13 @@ class Todo extends Component {
         }
         this.setState({
           todos:JSON.parse(localStorage.getItem("todos"))
-          
+
         });
     }
 
-    componentDidMount() {
-        const todos = window.localStorage.getItem("todos");
-        const parsedList = JSON.parse(todos);
-        if(todos == null) {
-            return false
-        } else {
-            this.setState({
-              todos: parsedList
-            })
-            console.log(this.state.todos);
-        }
-    }
     
-    deleteTodo = (event) => {
-        
-        let index = event.target.getAttribute('data-key')
+    deleteTodo = (event) => {        
+        let index = event.target.getAttribute("data-key")
         let todoValue = JSON.parse(localStorage.getItem("todos"));
         todoValue.splice(index,1)
         this.setState({
@@ -65,17 +63,17 @@ class Todo extends Component {
                 <div className="container">
                     <input type="text" placeholder="Add Something To Do..." ref={this.input}></input>
                         <button onClick={this.addTodo} className="button" >Add</button>
-                            <ul>
-                                {this.state.todos.map((item, index) => {
-                                      return(
-                                        <li key={item.id}>
-                                        {item.value}
-                                        <button className="button" type="button" value="delete" data-key={index} onClick={this.deleteTodo}>Delete</button>
-                                        </li>
-                                      )
-                                    })
-                                } 
-                            </ul>
+                          <ul>
+                            {this.state.todos.map((item, index) => {
+                                  return(
+                                    <li key={item.id}>
+                                    {item.value}
+                                    <button className="button" type="button" value="delete" data-key={index} onClick={this.deleteTodo}>Delete</button>
+                                    </li>
+                                  )
+                                })
+                            } 
+                          </ul>
                 </div>
                 
             </div>
