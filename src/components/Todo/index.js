@@ -35,11 +35,18 @@ class Todo extends Component {
             const todos = JSON.parse(localStorage.getItem("todos"))
             todos.push(Items)
             localStorage.setItem("todos", JSON.stringify(todos))
+            this.input.current.value = "";
         }
         this.setState({
           todos:JSON.parse(localStorage.getItem("todos"))
 
         });
+    }
+
+    updateTodo = (event) => {
+        let index = event.target.getAttribute("data-key");
+        let item = JSON.parse(localStorage.getItem("todos"));
+
     }
 
     
@@ -67,8 +74,9 @@ class Todo extends Component {
                             {this.state.todos.map((item, index) => {
                                   return(
                                     <li key={item.id}>
-                                    {item.value}
+                                    <input type="text" placeholder={item.value} ref={item.value}></input>
                                     <button className="button" type="button" value="delete" data-key={index} onClick={this.deleteTodo}>Delete</button>
+                                    <button className="u-button" type="button" value="update" data-key={index} onClick={this.updateTodo}>Update</button>
                                     </li>
                                   )
                                 })
